@@ -5,6 +5,7 @@ import { format } from "d3-format";
 import { timeFormat } from "d3-time-format";
 
 import { ChartCanvas, Chart } from "react-stockcharts";
+import { Label } from "react-stockcharts/lib/annotation";
 import { BarSeries, AreaSeries } from "react-stockcharts/lib/series";
 import { discontinuousTimeScaleProvider } from "react-stockcharts/lib/scale";
 import { XAxis, YAxis } from "react-stockcharts/lib/axes";
@@ -22,6 +23,7 @@ import {
   hexToRGBA
 } from "react-stockcharts/lib/utils";
 
+//required data:
 // date: Mon Jan 04 2010 00:00:00 GMT+0700 (Indochina Time)
 // open: 25.436282332605284
 // high: 25.835021381744056
@@ -31,7 +33,7 @@ import {
 
 class AreaChartWithEdge extends Component {
   render() {
-    const { type, data: initialData, width, ratio } = this.props;
+    const { type, data: initialData, width, ratio, chartTitle } = this.props;
 
     const xScaleProvider = discontinuousTimeScaleProvider.inputDateAccessor(
       (d) => d.date
@@ -46,15 +48,16 @@ class AreaChartWithEdge extends Component {
       { stop: 1, color: hexToRGBA("#4286f4", 0.8) }
     ]);
 
+    const margin = { left: 70, right: 70, top: 50, bottom: 30 };
     const start = xAccessor(last(data));
-    const end = xAccessor(data[Math.max(0, data.length - 150)]);
+    const end = xAccessor(data[Math.max(0, data.length - 1000)]);
     const xExtents = [start, end];
     return (
       <ChartCanvas
-        height={400}
+        height={350}
         ratio={ratio}
         width={width}
-        margin={{ left: 40, right: 70, top: 20, bottom: 30 }}
+        margin={margin}
         type={type}
         seriesName="MSFT"
         data={data}
@@ -62,7 +65,15 @@ class AreaChartWithEdge extends Component {
         xAccessor={xAccessor}
         displayXAccessor={displayXAccessor}
         xExtents={xExtents}
+        clamp={"both"}
+
+        // panEvent={true}
+        // zoomEvent={true}
       >
+
+        <Label x={(width - margin.left - margin.right) / 2} y={30}
+					fontSize={30} text={chartTitle} />
+
         <Chart id={1} yExtents={(d) => [d.high, d.low]}>
           <XAxis axisAt="bottom" orient="bottom" />
           <YAxis axisAt="right" orient="right" ticks={5} />
@@ -70,7 +81,7 @@ class AreaChartWithEdge extends Component {
           <MouseCoordinateX
             at="bottom"
             orient="bottom"
-            displayFormat={timeFormat("%Y-%m-%d")}
+            displayFormat={timeFormat("%Y-%m-%d %H:%M:%S")}
           />
           <MouseCoordinateY
             at="right"
@@ -84,13 +95,9 @@ class AreaChartWithEdge extends Component {
           />
 
           <SingleValueTooltip
-            xLabel="Date"
-            /* xLabel is optional, absence will not show the x value */ yLabel="C"
+            yLabel="Price"
             yAccessor={(d) => d.close}
-            xDisplayFormat={timeFormat("%Y-%m-%d")}
             yDisplayFormat={format(".2f")}
-            /* valueStroke="green" - optional prop */
-            /* labelStroke="#4682B4" - optional prop */
             origin={[-40, 0]}
           />
           <SingleValueTooltip
@@ -120,9 +127,9 @@ class AreaChartWithEdge extends Component {
 
           <BarSeries
             yAccessor={(d) => d.volume}
-            stroke
+            stroke={0.1}
             fill={(d) => (d.close > d.open ? "#6BA583" : "#FF0000")}
-            opacity={0.3}
+            opacity={0.2}
             widthRatio={1}
           />
         </Chart>

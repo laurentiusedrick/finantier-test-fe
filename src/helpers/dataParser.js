@@ -1,24 +1,36 @@
-import { timeParse } from "d3-time-format";
 
-// function parseData(parse) {
-//   return function (d) {
-//     d.date = parse(d.date);
-//     d.open = +d.open;
-//     d.high = +d.high;
-//     d.low = +d.low;
-//     d.close = +d.close;
-//     d.volume = +d.volume;
-//     return d;
-//   };
-// }
-
-// const parseDate = timeParse("%Y-%m-%d %H:%M:%S");
-
-export function parseData(intervalObj) {
-  const result = []
-  for (const key in intervalObj) {
-    if (key.includes(new Date()))
-    let info = {}
+export function parseIntervalDataFromAPI(intervObj, latestDate) {
+  let result = []
+  for (let key in intervObj) {
+    let d = {}
+    const date = key.split(" ")
+    if (date[0] === latestDate) {
+      d.date = new Date(key)
+      d.open = +intervObj[key]["1. open"]
+      d.high = +intervObj[key]["2. high"]
+      d.low = +intervObj[key]["3. low"]
+      d.close = +intervObj[key]["4. close"]
+      d.volume = +intervObj[key]["5. volume"]
+      result.push(d)
+    }
   }
-  return 
+  result.sort((a, b) => {
+    return a.date.valueOf() - b.date.valueOf();
+  })
+  return result
+}
+
+export function parseIntervalDataFromCache(array) {
+  // console.log(array)
+  const parsedMinuteInterval = array.map(info => {
+    return {...info, 
+      date: new Date(info.date),
+      open: +info.open,
+      high: +info.high,
+      low: +info.low,
+      close: +info.close,
+      volume: +info.volume
+    }
+  })
+  return parsedMinuteInterval
 }
