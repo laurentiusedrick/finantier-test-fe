@@ -5,10 +5,12 @@ https://finantier-test-fe.web.app/
 
 # Steps building the App:
   Day 1 (2020 - 10 - 21): 
+  
   1. Searched for the API which will provide the required information (open, last close, volume, etc.) - Ended up using Alphavantage.co
   2. Explored on how to use the price graph on React effectively - Ended up using 'react-stockcharts'
 
   Day 2 (2020 - 10 - 22): 
+  
   3. Started building the application, along with specifying needed pages
   4. Firing requests; parsing them until they become the intended format
   5. Defined localStorage as temporary storage to prevent over-requests, and how to utilize it effectively with the most updated data.
@@ -18,6 +20,7 @@ https://finantier-test-fe.web.app/
   9. Basic routing on the Single-page App
 
   Day 3 (2020 - 10 - 23): 
+  
   10. Multiple manual testing on how will the App behaves
   11. Deployment on Firebase Hosting
 
