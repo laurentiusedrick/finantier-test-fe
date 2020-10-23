@@ -54,18 +54,16 @@ class SearchBar extends Component {
   }, 1000)
 
 
-  keyDown = e => {
+  keyDown = _.debounce(e => {
     let { recommendationInput, recommendationLoading } = this.state
-    if (!recommendationLoading) {
-      if (e.keyCode === 13 && recommendationInput.length) {
-        this.props.history.push(`/${recommendationInput[0]["1. symbol"]}`)
-        this.setState({
-          recommendationInput: [],
-          searchInput: ''
-        })
-      }
+    if (e.keyCode === 13 && recommendationInput.length && !recommendationLoading) {
+      this.props.history.push(`/${recommendationInput[0]["1. symbol"]}`)
+      this.setState({
+        recommendationInput: [],
+        searchInput: ''
+      })
     }
-  }
+  }, 100)
 
   onRecommendationClick = val => {
     this.props.history.push(`/${val}`)
