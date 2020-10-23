@@ -16,6 +16,7 @@ class SearchBar extends Component {
   inputChange = e => {
     this.setState({
       recommendationLoading: true,
+      recommendationInput: [],
       searchInput: e.target.value
     })
     this.recommendationFromAPI(e.target.value)
