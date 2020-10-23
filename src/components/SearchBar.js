@@ -16,7 +16,6 @@ class SearchBar extends Component {
   inputChange = e => {
     this.setState({
       recommendationLoading: true,
-      recommendationInput: [],
       searchInput: e.target.value
     })
     this.recommendationFromAPI(e.target.value)
@@ -56,8 +55,8 @@ class SearchBar extends Component {
 
 
   keyDown = e => {
-    let { recommendationInput } = this.state
-    if (e.keyCode === 13 && recommendationInput.length) {
+    let { recommendationInput, recommendationLoading } = this.state
+    if (e.keyCode === 13 && recommendationInput.length && !recommendationLoading) {
       this.props.history.push(`/${recommendationInput[0]["1. symbol"]}`)
       this.setState({
         recommendationInput: [],
