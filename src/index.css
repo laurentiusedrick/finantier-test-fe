@@ -1,13 +1,7 @@
 .search-main {
   border: 1px solid #999;
   padding: 0.5rem;
-  width: 100%;
-}
-
-.search-bar {
-  border: 1px solid #999;
-  padding: 0.5rem;
-  width: 40%;
+  width: calc(500px + 1rem);
 }
 
 .no-recommendation {
@@ -18,21 +12,25 @@
 .recommendation {
   border: 1px solid #999;
   border-top-width: 0;
+  background-color: #fff;
   list-style: none;
   margin-top: 0;
   max-height: 143px;
   overflow-y: auto;
   padding-left: 0;
-  width: calc(300px + 1rem);
+  width: calc(500px + 1rem);
+  position: absolute;
+  z-index: 10;
 }
 
 .recommendation li {
   padding: 0.5rem;
   position: "absolute";
+  z-index: 20;
 }
 
 .recommendation li:hover {
-  background-color: #3e5bff;
+  background-color: #6a80ff;
   color: #fff;
   cursor: pointer;
   font-weight: 700;

@@ -1,9 +1,14 @@
 
-export function parseIntervalDataFromAPI(intervObj, latestDate) {
+export function parseIntervalDataFromAPI(intervObj, latest) {
+  //here sometimes the "latest date" from symbolInfo changed but actually the timeframe data hasn't, making it error. One alternative is that it uses the latest date available in the data (intervObj)
   let result = []
+  let latestDate = ""
   for (let key in intervObj) {
     let d = {}
     const date = key.split(" ")
+    if (latestDate === "") {
+      latestDate = date[0]
+    }
     if (date[0] === latestDate) {
       d.date = new Date(key)
       d.open = +intervObj[key]["1. open"]
@@ -21,9 +26,9 @@ export function parseIntervalDataFromAPI(intervObj, latestDate) {
 }
 
 export function parseIntervalDataFromCache(array) {
-  // console.log(array)
   const parsedMinuteInterval = array.map(info => {
-    return {...info, 
+    return {
+      ...info,
       date: new Date(info.date),
       open: +info.open,
       high: +info.high,

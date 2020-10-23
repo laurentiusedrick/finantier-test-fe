@@ -1,38 +1,42 @@
 import React from 'react';
-import SearchPage from './components/SearchPage';
-import {Switch,Route,BrowserRouter as Router} from 'react-router-dom'
+import SearchBar from './components/SearchBar';
+import { Switch, Route, BrowserRouter as Router } from 'react-router-dom'
 import Overview from './pages/Overview'
+import PageNotFound from './pages/PageNotFound'
 import Error from './pages/Error'
+import Home from './pages/Home'
 
 function App() {
   return (
     <div className="App">
       <Router>
-      <Switch>
+        <Switch>
 
-        <Route path="/*/*">
-          <h1>404 Page not Found</h1>
-        </Route>
+          <Route path="/*/*">
+            <PageNotFound />
+          </Route>
 
-        {/* <Route path="/"> */}
-          {/* <Switch> */}
+          <Route path="/">
+            <SearchBar />
+            <Switch>
 
-        <Route path="/error">
-          <Error />
-        </Route>
+              <Route exact path="/">
+                <Home />
+              </Route>
 
-        <Route path="/:symbol">
-          <Overview />
-        </Route>
+              <Route path="/error">
+                <Error />
+              </Route>
 
-        <Route exact path="/">
-          <SearchPage />
-        </Route>
-            
-          {/* </Switch> */}
-        {/* </Route> */}
-        
-      </Switch>
+              <Route path="/:symbol">
+
+                <Overview />
+              </Route>
+
+            </Switch>
+          </Route>
+
+        </Switch>
       </Router>
     </div>
   );
